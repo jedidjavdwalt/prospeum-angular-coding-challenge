@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
       question.answer = optionId;
+
+      this.appService
+        .updateIsTriggered(this.questionnaire)
+        .subscribe((data) => (this.questionnaire = data));
     }
   }
 
@@ -40,6 +44,10 @@ export class AppComponent implements OnInit {
         ? answer.filter((temp) => temp !== optionId)
         : [...answer, optionId];
       question.answer = answer;
+
+      this.appService
+        .updateIsTriggered(this.questionnaire)
+        .subscribe((data) => (this.questionnaire = data));
     }
   }
 
@@ -47,6 +55,10 @@ export class AppComponent implements OnInit {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
       question.answer = (event.target as HTMLTextAreaElement).value;
+
+      this.appService
+        .updateIsTriggered(this.questionnaire)
+        .subscribe((data) => (this.questionnaire = data));
     }
   }
 
