@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { AppService, mockData } from './app.service';
+import { By } from '@angular/platform-browser';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,16 +16,26 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'prospeum-angular-coding-challenge' title`, () => {
+  it(`should retrieve the questionnaire`, (done: DoneFn) => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('prospeum-angular-coding-challenge');
+    const appService = fixture.debugElement.injector.get(AppService);
+    fixture.detectChanges();
+    appService.getQuestionnaire().subscribe((data) => {
+      expect(app.questionnaire.length).toEqual(data.length);
+      done();
+    });
   });
 
-  it('should render title', () => {
+  it(`should update is_triggered`, (done: DoneFn) => {
     const fixture = TestBed.createComponent(AppComponent);
+    const appService = fixture.debugElement.injector.get(AppService);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, prospeum-angular-coding-challenge');
+    const questionnaire = structuredClone(mockData);
+    questionnaire[2].answer = 'should update is_triggered';
+    appService.updateIsTriggered(questionnaire).subscribe((data) => {
+      expect(data[2].is_triggered).toBeTruthy();
+      done();
+    });
   });
 });
