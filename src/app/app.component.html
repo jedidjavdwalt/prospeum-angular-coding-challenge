@@ -20,6 +20,8 @@
             [id]="option.id"
             [name]="question.title"
             [value]="option.value"
+            [checked]="checkedRadio(question.id, option.id)"
+            (change)="changeRadio(question.id, option.id)"
           />
           <label [for]="option.id">{{ option.verbose_name }}</label>
         </div>
@@ -34,6 +36,8 @@
             [id]="option.id"
             [name]="question.title"
             [value]="option.value"
+            [checked]="checkedCheckbox(question.id, option.id)"
+            (change)="changeCheckbox(question.id, option.id)"
           />
           <label [for]="option.id">{{ option.verbose_name }}</label>
         </div>
@@ -43,11 +47,13 @@
       <div class="pill-group">
         <div class="pill">
           <textarea
-            [id]="question.id"
-            [name]="question.title"
             rows="4"
             cols="32"
-          >{{question.answer}}</textarea>
+            [id]="question.id"
+            [name]="question.title"
+            [value]="question.answer"
+            (change)="changeTextarea(question.id, $event)"
+          ></textarea>
         </div>
       </div>
       }
