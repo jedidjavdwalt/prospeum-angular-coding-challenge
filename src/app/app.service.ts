@@ -65,13 +65,17 @@ export class AppService {
     return of(this.questionnaire).pipe(delay(1000));
   }
 
-  updateIsTriggered(data: Question[]): Observable<Question[]> {
+  updateIsTriggered(data: Question[]): Promise<Question[]> {
     for (const question of data) {
       question.is_triggered = question.answers.length > 0;
     }
     this.questionnaire = data;
 
-    // Simulate async request with a delay of 1 second
-    return of(this.questionnaire).pipe(delay(1000));
+    return new Promise((resolve) => {
+      // Simulating an asynchronous operation with a setTimeout
+      setTimeout(() => {
+        resolve(this.questionnaire);
+      }, 1000); // Simulate async request with a delay of 1 second
+    });
   }
 }

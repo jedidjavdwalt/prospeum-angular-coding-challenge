@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppService } from './app.service';
 import { Question } from './app.models';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,6 @@ import { Question } from './app.models';
   providers: [AppService],
 })
 export class AppComponent implements OnInit {
-  title = 'prospeum-angular-coding-challenge';
   questionnaire: Question[] = [];
 
   checkedRadio(questionId: string, optionId: string) {
@@ -20,15 +20,14 @@ export class AppComponent implements OnInit {
     return question?.answers[0] === optionId;
   }
 
-  changeRadio(questionId: string, optionId: string) {
-    console.log('changeRadio');
+  async changeRadio(questionId: string, optionId: string) {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
       question.answers = [optionId];
 
-      this.appService
-        .updateIsTriggered(this.questionnaire)
-        .subscribe((data) => (this.questionnaire = data));
+      this.questionnaire = await this.appService.updateIsTriggered(
+        this.questionnaire
+      );
     }
   }
 
@@ -37,8 +36,7 @@ export class AppComponent implements OnInit {
     return question?.answers.includes(optionId);
   }
 
-  changeCheckbox(questionId: string, optionId: string) {
-    console.log('changeCheckbox');
+  async changeCheckbox(questionId: string, optionId: string) {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
       let answer = question.answers;
@@ -47,20 +45,20 @@ export class AppComponent implements OnInit {
         : [...answer, optionId];
       question.answers = answer;
 
-      this.appService
-        .updateIsTriggered(this.questionnaire)
-        .subscribe((data) => (this.questionnaire = data));
+      this.questionnaire = await this.appService.updateIsTriggered(
+        this.questionnaire
+      );
     }
   }
 
-  changeTextarea(questionId: string, event: Event) {
+  async changeTextarea(questionId: string, event: Event) {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
       question.answers = [(event.target as HTMLTextAreaElement).value];
 
-      this.appService
-        .updateIsTriggered(this.questionnaire)
-        .subscribe((data) => (this.questionnaire = data));
+      this.questionnaire = await this.appService.updateIsTriggered(
+        this.questionnaire
+      );
     }
   }
 
@@ -69,6 +67,10 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.appService
       .getQuestionnaire()
-      .subscribe((data) => (this.questionnaire = data));
+      .pipe(take(1))
+      .subscribe((data) => {
+        console.log('data');
+        return (this.questionnaire = data);
+      });
   }
 }

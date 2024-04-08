@@ -1,13 +1,8 @@
 :host {
-  --bright-blue: oklch(51.01% 0.274 263.83);
-  --electric-violet: oklch(53.18% 0.28 296.97);
-  --french-violet: oklch(47.66% 0.246 305.88);
-  --vivid-pink: oklch(69.02% 0.277 332.77);
-  --hot-red: oklch(61.42% 0.238 15.34);
-  --orange-red: oklch(63.32% 0.24 31.68);
-
-  --gray-900: oklch(19.37% 0.006 300.98);
-  --gray-700: oklch(36.98% 0.014 302.71);
+  --bright-blue: hsl(224 100% 51%);
+  --french-violet: hsl(278 99% 39%);
+  --hot-red: hsl(343 89% 52%);
+  --gray-900: hsl(259 7% 8%);
 
   color: var(--gray-900);
   font-family: sans-serif;
@@ -43,14 +38,6 @@ main {
   margin-bottom: 48px;
 }
 
-.answer-group {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
 .answer {
   display: flex;
   align-items: center;
@@ -69,22 +56,30 @@ main {
   line-height: 1.4rem;
   letter-spacing: -0.00875rem;
   text-decoration: none;
+
+  &:hover {
+    background: color-mix(in srgb, var(--answer-colour) 15%, transparent);
+  }
 }
 
-.answer:hover {
-  background: color-mix(in srgb, var(--answer-colour) 15%, transparent);
-}
+.answer-group {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 12px;
 
-.answer-group .answer:nth-child(6n + 1) {
-  --answer-colour: var(--bright-blue);
-}
-.answer-group .answer:nth-child(6n + 2) {
-  --answer-colour: var(--french-violet);
-}
-.answer-group .answer:nth-child(6n + 3),
-.answer-group .answer:nth-child(6n + 4),
-.answer-group .answer:nth-child(6n + 5) {
-  --answer-colour: var(--hot-red);
+  .answer:nth-child(6n + 1) {
+    --answer-colour: var(--bright-blue);
+  }
+
+  .answer:nth-child(6n + 2) {
+    --answer-colour: var(--french-violet);
+  }
+
+  .answer:nth-child(6n + 3) {
+    --answer-colour: var(--hot-red);
+  }
 }
 
 @media screen and (max-width: 430px) {
