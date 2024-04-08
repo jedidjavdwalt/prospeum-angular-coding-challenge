@@ -1,20 +1,15 @@
 <main class="main">
   @for (question of questionnaire; track question.title) {
-  <div class="content">
+  <div class="question">
     <div class="left-side">
       <h1>{{ question.title }}</h1>
     </div>
 
-    <div class="divider" role="separator" aria-label="Divider"></div>
-
     <div class="right-side">
       @if (question.type === 'single_choice') {
-      <div class="pill-group">
-        @for (option of question.options; track option.verbose_name) {
-        <!-- <div class="pill">
-          <span>{{ option.verbose_name }}</span>
-        </div> -->
-        <div class="pill">
+      <div class="answer-group">
+        @for (option of question.options; track option.id) {
+        <div class="answer">
           <input
             type="radio"
             [id]="option.id"
@@ -23,14 +18,14 @@
             [checked]="checkedRadio(question.id, option.id)"
             (change)="changeRadio(question.id, option.id)"
           />
-          <label [for]="option.id">{{ option.verbose_name }}</label>
+          <label [for]="option.id">{{ option.value }}</label>
         </div>
         }
       </div>
       } @else if (question.type === 'multiple_choice') {
-      <div class="pill-group">
-        @for (option of question.options; track option.verbose_name) {
-        <div class="pill">
+      <div class="answer-group">
+        @for (option of question.options; track option.id) {
+        <div class="answer">
           <input
             type="checkbox"
             [id]="option.id"
@@ -39,22 +34,20 @@
             [checked]="checkedCheckbox(question.id, option.id)"
             (change)="changeCheckbox(question.id, option.id)"
           />
-          <label [for]="option.id">{{ option.verbose_name }}</label>
+          <label [for]="option.id">{{ option.value }}</label>
         </div>
         }
       </div>
       } @else {
-      <div class="pill-group">
-        <div class="pill">
-          <textarea
-            rows="4"
-            cols="32"
-            [id]="question.id"
-            [name]="question.title"
-            [value]="question.answer"
-            (change)="changeTextarea(question.id, $event)"
-          ></textarea>
-        </div>
+      <div class="answer">
+        <textarea
+          rows="4"
+          cols="32"
+          [id]="question.id"
+          [name]="question.title"
+          [value]="question.answers"
+          (change)="changeTextarea(question.id, $event)"
+        ></textarea>
       </div>
       }
     </div>

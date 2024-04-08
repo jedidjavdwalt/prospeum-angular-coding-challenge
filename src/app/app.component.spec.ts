@@ -32,7 +32,7 @@ describe('AppComponent', () => {
     const appService = fixture.debugElement.injector.get(AppService);
     fixture.detectChanges();
     const questionnaire = structuredClone(mockData);
-    questionnaire[2].answer = 'should update is_triggered';
+    questionnaire[2].answers = 'should update is_triggered';
     appService.updateIsTriggered(questionnaire).subscribe((data) => {
       expect(data[2].is_triggered).toBeTruthy();
       done();

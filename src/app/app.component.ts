@@ -15,15 +15,16 @@ export class AppComponent implements OnInit {
   title = 'prospeum-angular-coding-challenge';
   questionnaire: Question[] = [];
 
-  checkedRadio(questionId: number, optionId: number) {
+  checkedRadio(questionId: string, optionId: string) {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
-    return (question?.answer as number) === optionId;
+    return question?.answers[0] === optionId;
   }
 
-  changeRadio(questionId: number, optionId: number) {
+  changeRadio(questionId: string, optionId: string) {
+    console.log('changeRadio');
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
-      question.answer = optionId;
+      question.answers = [optionId];
 
       this.appService
         .updateIsTriggered(this.questionnaire)
@@ -31,19 +32,20 @@ export class AppComponent implements OnInit {
     }
   }
 
-  checkedCheckbox(questionId: number, optionId: number) {
+  checkedCheckbox(questionId: string, optionId: string) {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
-    return (question?.answer as number[]).includes(optionId);
+    return question?.answers.includes(optionId);
   }
 
-  changeCheckbox(questionId: number, optionId: number) {
+  changeCheckbox(questionId: string, optionId: string) {
+    console.log('changeCheckbox');
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
-      let answer = question.answer as number[];
+      let answer = question.answers;
       answer = answer.includes(optionId)
         ? answer.filter((temp) => temp !== optionId)
         : [...answer, optionId];
-      question.answer = answer;
+      question.answers = answer;
 
       this.appService
         .updateIsTriggered(this.questionnaire)
@@ -51,10 +53,10 @@ export class AppComponent implements OnInit {
     }
   }
 
-  changeTextarea(questionId: number, event: Event) {
+  changeTextarea(questionId: string, event: Event) {
     const question = this.questionnaire.find((temp) => temp.id === questionId);
     if (!!question) {
-      question.answer = (event.target as HTMLTextAreaElement).value;
+      question.answers = [(event.target as HTMLTextAreaElement).value];
 
       this.appService
         .updateIsTriggered(this.questionnaire)

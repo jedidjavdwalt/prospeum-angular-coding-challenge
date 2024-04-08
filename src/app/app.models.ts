@@ -1,23 +1,15 @@
 export interface Option {
-  id: number;
-  verbose_name: string;
+  id: string;
   value: string;
 }
 
 export interface Question {
-  id: number;
-  sort_id: number;
+  id: string;
   title: string;
   type: 'single_choice' | 'multiple_choice' | 'multi_line_text';
+  is_triggered: boolean;
+  // answers: number | number[] | string;
+  answers: string[];
 
   options?: Option[];
-  // TODO: What's this property for?
-  // condition: [
-  //   {
-  //     question: 1;
-  //     value: 3;
-  //   }
-  // ];
-  is_triggered: boolean;
-  answer: number | number[] | string;
 }
