@@ -72,7 +72,6 @@ export class AppService {
     this.questionnaire = data;
 
     return new Promise((resolve) => {
-      // Simulating an asynchronous operation with a setTimeout
       setTimeout(() => {
         resolve(this.questionnaire);
       }, 1000); // Simulate async request with a delay of 1 second
